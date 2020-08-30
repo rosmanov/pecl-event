@@ -126,6 +126,7 @@ static void free_prop_handler(zval *el)/*{{{*/
 
 static void php_event_event_dtor_obj(zend_object *object)/*{{{*/
 {
+	php_printf("%s\n", __func__);
 	Z_EVENT_X_OBJ_T(event) *intern = Z_EVENT_X_FETCH_OBJ(event, object);
 	PHP_EVENT_ASSERT(intern);
 
@@ -145,6 +146,7 @@ static void php_event_base_dtor_obj(zend_object *object)/*{{{*/
 	PHP_EVENT_ASSERT(intern);
 #endif
 
+	php_printf("%s\n", __func__);
 	zend_objects_destroy_object(object);
 }/*}}}*/
 
@@ -220,6 +222,7 @@ static void php_event_buffer_dtor_obj(zend_object *object)/*{{{*/
 
 static void php_event_event_free_obj(zend_object *object)/*{{{*/
 {
+	php_printf("%s\n", __func__);
 	Z_EVENT_X_OBJ_T(event) *intern = Z_EVENT_X_FETCH_OBJ(event, object);
 	PHP_EVENT_ASSERT(intern);
 
@@ -241,6 +244,10 @@ static void php_event_event_free_obj(zend_object *object)/*{{{*/
 
 static void php_event_base_free_obj(zend_object *object)/*{{{*/
 {
+	php_printf("%s\n", __func__);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	Z_EVENT_X_OBJ_T(base) *b = Z_EVENT_X_FETCH_OBJ(base, object);
 	PHP_EVENT_ASSERT(b);
 

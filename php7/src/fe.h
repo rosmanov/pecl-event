@@ -21,6 +21,7 @@
 #include "common.h"
 
 PHP_METHOD(Event, __construct);
+PHP_METHOD(Event, __toString);
 PHP_METHOD(Event, free);
 PHP_METHOD(Event, set);
 PHP_METHOD(Event, add);
@@ -35,6 +36,7 @@ PHP_METHOD(Event, setTimer);
 
 PHP_METHOD(Event, signal);
 
+PHP_METHOD(EventBase, __toString);
 PHP_METHOD(EventBase, __construct);
 PHP_METHOD(EventBase, __sleep);
 PHP_METHOD(EventBase, __wakeup);

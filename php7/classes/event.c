@@ -19,6 +19,8 @@
 #include "../src/util.h"
 #include "../src/priv.h"
 
+#include <zend_exceptions.h>
+
 /* {{{ Private */
 
 /* {{{ zval_to_signum */
@@ -48,6 +50,12 @@ static void timer_cb(evutil_socket_t fd, short what, void *arg)
 	zval             retval;
 	zend_string     *func_name;
 	zval             zcallable;
+
+	php_printf("%s\n", __func__);
+
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 
 	PHP_EVENT_ASSERT(e);
 	PHP_EVENT_ASSERT(what & EV_TIMEOUT);
@@ -104,6 +112,9 @@ static void event_cb(evutil_socket_t fd, short what, void *arg)
 	zval             retval;
 	zend_string     *func_name;
 	zval             zcallable;
+	int              res = FAILURE;
+
+	php_printf("%s\n", __func__);
 
 	PHP_EVENT_ASSERT(e);
 
@@ -142,12 +153,15 @@ static void event_cb(evutil_socket_t fd, short what, void *arg)
 	fci.retval = &retval;
 	fci.params = argv;
 	fci.param_count = 3;
-	fci.no_separation  = 1;
+	fci.no_separation = 1;
 #ifdef HAVE_PHP_ZEND_FCALL_INFO_SYMBOL_TABLE
 	fci.symbol_table = NULL;
 #endif
 
-	if (zend_call_function(&fci, &e->cb.fci_cache) == SUCCESS) {
+	php_printf("%s: calling cb\n", __func__);
+	res = zend_call_function(&fci, &e->cb.fci_cache);
+
+	if (res == SUCCESS) {
 		if (!Z_ISUNDEF(retval)) {
 			zval_ptr_dtor(&retval);
 		}
@@ -224,6 +238,11 @@ static void signal_cb(evutil_socket_t signum, short what, void *arg)
 
 /* }}} */
 
+PHP_METHOD(Event, __toString)
+{
+	zval_ptr_dtor(return_value);
+	RETURN_EMPTY_STRING();
+}
 
 /* {{{ proto Event Event::__construct(EventBase base, mixed fd, int what, callable cb[, zval arg = NULL]);
  * Creates new event */

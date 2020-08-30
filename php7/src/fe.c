@@ -495,6 +495,7 @@ ZEND_END_ARG_INFO();
 
 const zend_function_entry php_event_ce_functions[] = {/* {{{ */
 	PHP_ME(Event, __construct,         arginfo_event__construct,   ZEND_ACC_PUBLIC  | ZEND_ACC_CTOR)
+	PHP_ME(Event, __toString,          arginfo_event__void,   ZEND_ACC_PUBLIC)
 	PHP_ME(Event, free,                arginfo_event__void,        ZEND_ACC_PUBLIC)
 	PHP_ME(Event, set,                 arginfo_event_set,          ZEND_ACC_PUBLIC)
 	PHP_ME(Event, getSupportedMethods, arginfo_event__void,        ZEND_ACC_PUBLIC  | ZEND_ACC_STATIC)
@@ -523,6 +524,7 @@ const zend_function_entry php_event_base_ce_functions[] = {/* {{{ */
 	PHP_ME(EventBase, __construct,        arginfo_event_base__construct,    ZEND_ACC_PUBLIC  | ZEND_ACC_CTOR)
 	PHP_ME(EventBase, __sleep,            arginfo_event_base_void,          ZEND_ACC_PUBLIC  | ZEND_ACC_FINAL)
 	PHP_ME(EventBase, __wakeup,           arginfo_event_base_void,          ZEND_ACC_PUBLIC  | ZEND_ACC_FINAL)
+	PHP_ME(EventBase, __toString,          arginfo_event__void,   ZEND_ACC_PUBLIC)
 	PHP_ME(EventBase, getMethod,          arginfo_event_base_void,          ZEND_ACC_PUBLIC)
 	PHP_ME(EventBase, getFeatures,        arginfo_event__void,              ZEND_ACC_PUBLIC)
 	PHP_ME(EventBase, priorityInit,       arginfo_event_base_priority_init, ZEND_ACC_PUBLIC)

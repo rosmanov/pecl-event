@@ -63,6 +63,15 @@ PHP_METHOD(EventBase, __wakeup)
 }
 /*}}}*/
 
+PHP_METHOD(EventBase, __toString)
+{
+	if (zend_parse_parameters_none() == FAILURE) {
+		return;
+	}
+	zval_ptr_dtor(return_value);
+	RETURN_EMPTY_STRING();
+}
+
 /* {{{ proto void EventBase::free(void); */
 PHP_METHOD(EventBase, free)
 {
